@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const keys = require('../../config/keys');
 
 // load user model
 const User = require('../../models/User');
@@ -11,7 +13,7 @@ const User = require('../../models/User');
 // @access  Public
 router.get('/test', (req, res) => res.json({ msg: "users works" }));
 
-// @route   GET api/users/register
+// @route   POST api/users/register
 // @desc    Register a user
 // @access  Public
 router.post('/register', (req, res) => {
@@ -41,11 +43,60 @@ router.post('/register', (req, res) => {
             newUser.password = hash;
             newUser.save()
               .then(user => res.json(user))
-              .catch(err => console.log(err));
+              .catch(err => { console.log(err); res.status(400).json({ msg: 'user not saved' }) });
           })
         })
       }
     })
+    ;
+});
+
+// @route   POST api/users/register
+// @desc    Login user / Returning token
+// @access  Public
+router.post('/login', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  //find by email
+  User.findOne({ email })
+    .then(user => {
+      if (!user) {
+        return res.status(404).json({ email: 'user not found' });
+      }
+
+      //check password
+      bcrypt.compare(password, user.password)
+        .then(isMatch => {
+          if (isMatch) {
+            //User matched
+
+            // create jwt payload
+            const payload = {
+              id: user.id,
+              name: user.name,
+              avatar: user.avatar
+            }
+
+            //sign token
+            jwt.sign(payload, keys.secretOrKey, {
+              expiresIn: 3600
+            }, (err, token) => {
+              res.json({
+                success: true,
+                token: 'Bearer ' + token
+              });
+            });
+
+          }
+          else {
+            res.status(400).json({ password: 'Password incorrect' });
+          }
+        })
+        ;
+    })
+    ;
+
 });
 
 module.exports = router;
