@@ -3,6 +3,9 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+// load validation
+const validateProfileInput = require('../../validation/profile');
+
 // load profile model
 const Profile = require('../../models/Profile');
 // load user model
@@ -20,6 +23,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
   const errors = {};
 
   Profile.findOne({ user: req.user.id })
+    .populate('user', ['name', 'avatar'])
     .then(profile => {
       if (!profile) {
         errors.noprofile = 'There is no profile for this user';
@@ -35,7 +39,13 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
 // @route   POST api/profile
 // @desc    Create or update user profile
 // @access  Private
-router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { errors, isValid } = validateProfileInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
   // get fields
   const profileFields = {};
   profileFields.user = req.user.id;
@@ -63,7 +73,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
   }
 
   // skills => comes as csv , make array and save
-  if (typeof req.body.skill !== 'undefined') {
+  if (typeof req.body.skills !== 'undefined') {
     profileFields.skills = req.body.skills.split(',');
   }
 
@@ -86,7 +96,7 @@ router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => 
     profileFields.social.instagram = req.body.instagram;
   }
 
-  Profile.findOne({ user: rew.user.id })
+  Profile.findOne({ user: req.user.id })
     .then(profile => {
       if (profile) {
         //update  
