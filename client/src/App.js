@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -10,24 +12,26 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Navbar />
 
-        <Routes>
-          <Route path="/" element={<Landing />} />
-        </Routes>
-
-        <div className="container">
           <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Landing />} />
           </Routes>
-        </div>
 
-        <Footer />
-      </div>
-    </Router>
+          <div className="container">
+            <Routes>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </div>
+
+          <Footer />
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
