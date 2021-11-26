@@ -1,3 +1,4 @@
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -10,44 +11,12 @@ import Register from './components/auth/Register';
 
 import './App.css';
 
-function App() {
-  return (
-    <Provider store={store}>
-      <Router>
-        <div className="App">
-          <Navbar />
+const App = () =>
 
-          <Routes>
-            <Route path="/" element={<Landing />} />
-          </Routes>
-
-          <div className="container">
-            <Routes>
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-          </div>
-
-          <Footer />
-        </div>
-      </Router>
-    </Provider>
-  );
-}
-
-
-// function App() {
-//   return (
-//     <Router>
-//       <div className="App">
-//         <Navbar />
-//         {/* <Landing /> */}
-//         <Route exact path="/" component={Landing} />
-//         <Footer />
-//       </div>
-//     </Router>
-//   );
-// }
+  <Fragment>
+    <Navbar />
+    <Landing />
+  </Fragment>
 
 
 export default App;
