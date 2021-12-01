@@ -10,18 +10,12 @@ const App = () => {
     <Router>
       <div className="App">
         <Navbar />
-
         <Routes>
-          <Route path="/" element={<Landing />} />
-        </Routes>
-
-        <section className="container">
-          <Routes>
+          <Route path="/" element={<Landing />} >
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-          </Routes>
-        </section>
-
+          </Route>
+        </Routes>
       </div>
     </Router>
   );
