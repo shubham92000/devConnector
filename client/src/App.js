@@ -19,7 +19,9 @@ const App = () => {
       <Router>
         <Fragment>
           <Navbar />
-          <Alert />
+          <section className="container">
+            <Alert />
+          </section>
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/register" element={<Register />} />
