@@ -76,12 +76,13 @@ export const login = (email, password) => async dispatch => {
 
   try {
     const res = await axios.post('/api/auth', body, config);
-
+    // console.log('login action');
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
     })
 
+    // console.log('load user action');
     dispatch(loadUser());
 
   } catch (err) {
