@@ -9,6 +9,8 @@ import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 import NotFound from './components/layout/NotFound';
 import CreateProfile from './components/profile-forms/CreateProfile';
+import AddExperience from './components/profile-forms/AddExperience';
+import AddEducation from './components/profile-forms/AddEducation';
 import EditProfile from './components/profile-forms/EditProfile';
 
 //redux
@@ -61,6 +63,22 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <EditProfile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/add-experience"
+              element={
+                <PrivateRoute>
+                  <AddExperience />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/add-education"
+              element={
+                <PrivateRoute>
+                  <AddEducation />
                 </PrivateRoute>
               }
             />
