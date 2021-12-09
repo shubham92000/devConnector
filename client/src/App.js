@@ -14,6 +14,7 @@ import AddEducation from './components/profile-forms/AddEducation';
 import EditProfile from './components/profile-forms/EditProfile';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
+import Posts from './components/posts/Posts';
 
 //redux
 import { Provider } from 'react-redux';
@@ -83,6 +84,14 @@ const App = () => {
               element={
                 <PrivateRoute>
                   <AddEducation />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/posts"
+              element={
+                <PrivateRoute>
+                  <Posts />
                 </PrivateRoute>
               }
             />
