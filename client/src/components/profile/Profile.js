@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import ProfileTop from './ProfileTop';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
+import ProfileGithub from './ProfileGithub';
 import { Link } from 'react-router-dom';
 import ProfileAbout from './ProfileAbout';
 
@@ -43,10 +44,7 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
               {profile.experience.length > 0 ? (
                 <Fragment>
                   {profile.experience.map((exp) => (
-                    <ProfileExperience
-                      key={experience._id}
-                      experience={experience}
-                    />
+                    <ProfileExperience key={exp._id} experience={exp} />
                   ))}
                 </Fragment>
               ) : (
@@ -54,21 +52,22 @@ const Profile = ({ getProfileById, profile: { profile, loading }, auth }) => {
               )}
             </div>
 
-            <div className="profile-exp bg-white p-2">
+            <div className="profile-edu bg-white p-2">
               <h2 className="text-primary">Education</h2>
               {profile.education.length > 0 ? (
                 <Fragment>
                   {profile.education.map((edu) => (
-                    <ProfileEducation
-                      key={education._id}
-                      education={education}
-                    />
+                    <ProfileEducation key={edu._id} education={edu} />
                   ))}
                 </Fragment>
               ) : (
-                <h4>No experience</h4>
+                <h4>No education</h4>
               )}
             </div>
+
+            {profile.githubusername && (
+              <ProfileGithub username={profile.githubusername} />
+            )}
           </div>
         </Fragment>
       )}
